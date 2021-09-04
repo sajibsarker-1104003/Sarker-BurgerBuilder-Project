@@ -5,7 +5,6 @@ import BurgerBuilder from './BurgerBuilder/BurgerBuilder';
 const Main=(props)=>{
   return(
     <div>
-      <h1>Main.js</h1>
       <Header/>
       <BurgerBuilder/>
 
