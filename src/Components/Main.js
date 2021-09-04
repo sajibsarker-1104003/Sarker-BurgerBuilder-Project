@@ -6,7 +6,10 @@ const Main=(props)=>{
   return(
     <div>
       <Header/>
+      <div className="container">
       <BurgerBuilder/>
+      </div>
+      
 
     </div>
     )
