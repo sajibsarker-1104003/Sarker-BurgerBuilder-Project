@@ -2,29 +2,39 @@ import React, { Component } from 'react';
 import Burger from './Burger/Burger';
 import Controls from './Controls/Controls';
 
+const INGREDIENTS_PRICES={
+    salad:20,
+    cheese:40,
+    meat:90,
+}
+
 export default class BurgerBuilder extends Component {
     state = {
         ingredients: [
             { type: 'salad', amount: 0 },
             { type: 'cheese', amount: 0 },
             { type: 'meat', amount: 0 },
-        ]
+        ],
+        totalPrice:80,
     }
 
     addIngredientHandle=type=>{
         //console.log(type);
         const ingredients=[...this.state.ingredients];
+        const newPrice=this.state.totalPrice+INGREDIENTS_PRICES[type];
         for(let item of ingredients){
             if(item.type===type) item.amount++;
             
         }
         this.setState({
-            ingredients:ingredients
+            ingredients:ingredients,
+            totalPrice:newPrice
         });
     }
     removeIngredientHandle=type=>{
         //console.log(type);
         const ingredients=[...this.state.ingredients];
+        const newPrice=this.state.totalPrice-INGREDIENTS_PRICES[type];
         for(let item of ingredients){
             if(item.type===type) {
                 if(item.amount<=0) return;
@@ -34,7 +44,8 @@ export default class BurgerBuilder extends Component {
             
         }
         this.setState({
-            ingredients:ingredients
+            ingredients:ingredients,
+            totalPrice:newPrice
         });
     }
     render() {
@@ -44,6 +55,7 @@ export default class BurgerBuilder extends Component {
                 <Controls
                 ingredientAdded={this.addIngredientHandle} 
                 ingredientRemoved={this.removeIngredientHandle}
+                price={this.state.totalPrice} 
                 />
             </div>
         )
