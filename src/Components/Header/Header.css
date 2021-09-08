@@ -13,8 +13,11 @@
   color: rgb(59, 36, 36);
   font-size: 25px;
   margin-top:-25px;
-  margin-left: 20px;
+  margin-left: 10px;
+  margin-right: 25px;
+  
 }
+
 
 .NavLink:hover{
   color:wheat;
