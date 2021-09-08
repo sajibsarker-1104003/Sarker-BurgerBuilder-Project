@@ -71,6 +71,11 @@ export default class BurgerBuilder extends Component {
             modalOpen:!this.state.modalOpen
         })
     }
+
+    handleCheckout=()=>{
+        this.props.history.push("/checkout");
+
+    }
     render() {
         return (
             <div>
@@ -91,7 +96,7 @@ export default class BurgerBuilder extends Component {
                 </ModalBody>
                 <Summary ingredients={this.state.ingredients}/>
                 <ModalFooter>
-                    <Button color="success" onClick={this.toggleModal}>Continue to Checkout</Button>
+                    <Button color="success" onClick={this.handleCheckout}>Continue to Checkout</Button>
                     <Button color="secondary" onClick={this.toggleModal}>Cancel</Button>
                 </ModalFooter>
               </Modal>
