@@ -1,6 +1,18 @@
 import React,{Component} from "react";
 import {Button} from 'reactstrap';
 
+import axios from 'axios';
+
+import {connect} from 'react-redux';
+
+const mapStateToProps=state=>{
+  return{
+    ingredients:state.ingredients,
+    totalPrice:state.totalPrice,
+    purchasable:state.purchasable,
+  }
+}
+
 class Checkout extends Component{
 
   state={
@@ -26,12 +38,29 @@ class Checkout extends Component{
   }
 
   submitHandler=()=>{
-    console.log(this.state.values);
+    //console.log(this.state.values);
+    const order={
+      ingredients:this.props.ingredients,
+      customer:this.state.values,
+      price:this.props.totalPrice,
+      orderTime:new Date(),
+    }
+    console.log(order);
+    axios.post("https://burger-builder-69e98-default-rtdb.firebaseio.com/order.json",order)
+    .then(response=>console.log(response))
+    .catch(er=>console.log(er))
+
   }
 
   render(){
     return(
       <div>
+        <h4 style={{
+          border:"3px solid grey",
+          boxShadow:"2px 2px #888888",
+          borderRadius:"10px",
+          padding:"20px",
+        }}>Payment:{this.props.totalPrice} BDT</h4>
         <form style={{
           border:"3px solid grey",
           boxShadow:"2px 2px #888888",
@@ -75,4 +104,4 @@ class Checkout extends Component{
 
 }
   
-export default Checkout;
+export default connect(mapStateToProps)(Checkout);
