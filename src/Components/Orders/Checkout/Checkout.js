@@ -1,5 +1,8 @@
 import React,{Component} from "react";
-import {Button} from 'reactstrap';
+import {Button,Modal,ModalBody} from 'reactstrap';
+import Spinner from '../../Spinner/Spinner';
+
+import { resetIngredient } from "../../../redux/actionCreators";
 
 import axios from 'axios';
 
@@ -13,6 +16,12 @@ const mapStateToProps=state=>{
   }
 }
 
+const mapDispatchToProps=dispatch=>{
+  return{
+    resetIngredient:()=>dispatch(resetIngredient()),
+  }
+}
+
 class Checkout extends Component{
 
   state={
@@ -20,7 +29,10 @@ class Checkout extends Component{
       deliveryAddress:"",
       phone:"",
       paymentType:"Cash On Delivery",
-    }
+    },
+    isLoading:false,
+    isModalOpen:false,
+    modalMsg:"",
   }
 
   goBack=()=>{
@@ -39,6 +51,9 @@ class Checkout extends Component{
 
   submitHandler=()=>{
     //console.log(this.state.values);
+    this.setState({
+      isLoading:true
+    })
     const order={
       ingredients:this.props.ingredients,
       customer:this.state.values,
@@ -47,15 +62,36 @@ class Checkout extends Component{
     }
     console.log(order);
     axios.post("https://burger-builder-69e98-default-rtdb.firebaseio.com/order.json",order)
-    .then(response=>console.log(response))
-    .catch(er=>console.log(er))
+    .then(response=>{
+      if(response.status===200){
+        this.setState({
+          isLoading:false,
+          isModalOpen:true,
+          modalMsg:"Order Placed Successfully",
+        })
+        this.props.resetIngredient();
+      }else{
+        this.setState({
+          isLoading:false,
+          isModalOpen:true,
+          modalMsg:"Something Went Wrong! Order Again",
+        })
+      }
+
+    })
+    .catch(er=>{
+      this.setState({
+        isLoading:false,
+        isModalOpen:true,
+        modalMsg:"Something Went Wrong! Order Again",
+      })
+    })
 
   }
 
   render(){
-    return(
-      <div>
-        <h4 style={{
+    let form=(<div>
+      <h4 style={{
           border:"3px solid grey",
           boxShadow:"2px 2px #888888",
           borderRadius:"10px",
@@ -92,11 +128,20 @@ class Checkout extends Component{
           </select>
           <br/>
 
-          <Button style={{backgroundColor:"#D70F64"}} className="mr-auto" onClick={this.submitHandler}>Place Order</Button>
+          <Button style={{backgroundColor:"#D70F64"}} className="mr-auto" onClick={this.submitHandler} disabled={!this.props.purchasable}>Place Order</Button>
 
           <Button style={{backgroundColor:"secondary"}} className="ml-1" onClick={this.goBack}>Cancel</Button>
 
         </form>
+    </div>)
+    return(
+      <div>
+        {this.state.isLoading ? <Spinner/> : form}   
+        <Modal isOpen={this.state.isModalOpen} onClick={this.goBack}>
+          <ModalBody>
+            <p>{this.state.modalMsg}</p>
+          </ModalBody>
+        </Modal>
 
       </div>
       )
@@ -104,4 +149,4 @@ class Checkout extends Component{
 
 }
   
-export default connect(mapStateToProps)(Checkout);
+export default connect(mapStateToProps,mapDispatchToProps)(Checkout);

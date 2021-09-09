@@ -21,3 +21,10 @@ export const updatePurchasable=()=>{
 
   }
 } 
+
+export const resetIngredient=()=>{
+  return{
+    type:actionTypes.RESET_INGREDIENTS,
+    
+  }
+}
