@@ -1,12 +1,43 @@
-import React from 'react';
+import React,{Component} from 'react';
 
-const Orders=props=>{
-  return(
-    <div>
-      <p>Orders</p>
+import {connect} from 'react-redux';
 
-    </div>
-    )
+import { fetchOrders } from '../../redux/actionCreators';
+
+
+const mapStateToProps=state=>{
+  return{
+    orders:state.orders,
+    orderLoading:state.orderLoading,
+    orderErr:state.orderErr,
+  }
 }
 
-export default Orders;
+const mapDispatchToProps = dispatch=>{
+  return{
+    fetchOrders:()=>dispatch(fetchOrders()),
+  }
+}
+
+
+class Orders extends Component{
+
+  componentDidMount() {
+    this.props.fetchOrders();
+  }
+
+  componentDidUpdate(){
+    console.log(this.props);
+  }
+
+
+  render() {
+    return(
+      <div>
+
+      </div>
+      )
+  }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(Orders);
