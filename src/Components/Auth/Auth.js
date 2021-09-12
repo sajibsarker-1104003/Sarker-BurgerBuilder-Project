@@ -19,8 +19,40 @@ class Auth extends Component{
 
           }
         }
+
+        validate={(values)=>{
+          const errors={};
+          if(!values.email){
+            errors.email='Required';
+          }
+          else if(!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)){
+            errors.email='Required';
+          }
+
+          if(!values.password){
+            errors.password='Required';
+          }
+          else if(values.password.length<4){
+            errors.password='Must Be Atleast 4 Character';
+          }
+
+          if(!values.passwordConfirm){
+            errors.passwordConfirm='Required';
+          }
+          else if(values.password!=values.passwordConfirm){
+            errors.passwordConfirm='Password Field Doesnot Match';
+          }
+
+          console.log(errors);   
+          return errors;
+        }}
         >
-          {({values,handleChange,handleSubmit})=>(<div>
+          {({values,handleChange,handleSubmit,errors})=>(<div style={{
+            border:"1px grey solid",
+            padding:"15px",
+            borderRadius:"7px",
+
+          }}>
             <form onSubmit={handleSubmit}>
               <input 
               name="email"
@@ -29,6 +61,7 @@ class Auth extends Component{
               value={values.email}
               onChange={handleChange}
               />
+              <span style={{color:"red"}}>{errors.email}</span>
               <br/>
 
               <input 
@@ -38,6 +71,7 @@ class Auth extends Component{
               value={values.password}
               onChange={handleChange}
               />
+              <span style={{color:"red"}}>{errors.password}</span>
               <br/>
 
               <input 
@@ -47,6 +81,7 @@ class Auth extends Component{
               value={values.passwordConfirm}
               onChange={handleChange}
               />
+              <span style={{color:"red"}}>{errors.passwordConfirm}</span>
               <br/>
 
               <button type="submit" className="btn btn-success">Sign Up</button>
