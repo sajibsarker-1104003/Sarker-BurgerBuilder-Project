@@ -4,6 +4,12 @@ import {connect} from 'react-redux';
 
 import { fetchOrders } from '../../redux/actionCreators';
 
+import Order from './Order/Order';
+
+import Spinner from '../Spinner/Spinner';
+
+
+
 
 const mapStateToProps=state=>{
   return{
@@ -11,11 +17,13 @@ const mapStateToProps=state=>{
     orderLoading:state.orderLoading,
     orderErr:state.orderErr,
   }
+  
 }
 
 const mapDispatchToProps = dispatch=>{
+  
   return{
-    fetchOrders:()=>dispatch(fetchOrders()),
+    fetchOrders: () => dispatch(fetchOrders()),
   }
 }
 
@@ -24,16 +32,50 @@ class Orders extends Component{
 
   componentDidMount() {
     this.props.fetchOrders();
+    //console.log(this.props);
   }
 
   componentDidUpdate(){
-    console.log(this.props);
+   console.log(this.props);
   }
 
 
   render() {
+    let orders=null;
+    if(this.props.orderErr){
+      orders=<p style={{
+        border: "1px solid grey",
+        boxShadow: "1px 1px #888888",
+        borderRadius: "5px",
+        padding: "20px",
+        marginBottom: "10px",
+    }}>Sorry!!Failed To Load Orders</p>
+    }else
+    {
+      if(this.props.orders.length===0){
+        orders=<p style={{
+          border: "1px solid grey",
+          boxShadow: "1px 1px #888888",
+          borderRadius: "5px",
+          padding: "20px",
+          marginBottom: "10px",
+      }}>You Have No Orders </p>
+      }
+      else{
+        orders=this.props.orders.map(order=>{
+          //console.log(order);
+          return(<Order order={order} key={order.id}/>);
+          
+        })
+
+      }
+       
+    }
+    
     return(
       <div>
+        
+         {this.props.orderLoading ? <Spinner/> : orders}
 
       </div>
       )

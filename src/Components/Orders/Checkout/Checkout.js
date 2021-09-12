@@ -60,7 +60,7 @@ class Checkout extends Component{
       price:this.props.totalPrice,
       orderTime:new Date(),
     }
-    console.log(order);
+    //console.log(order);
     axios.post("https://burger-builder-69e98-default-rtdb.firebaseio.com/order.json",order)
     .then(response=>{
       if(response.status===200){
