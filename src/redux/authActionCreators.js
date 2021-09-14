@@ -37,15 +37,28 @@ export const auth = (email, password, mode) => dispatch => {
         })
 }
 
+export const logout = () =>{
+    localStorage.removeItem('token');
+    localStorage.removeItem('expirationTime');
+    localStorage.removeItem('userId');
+
+    return{
+        type: actionTypes.AUTH_LOGOUT,
+
+    }
+}
+
 export const authCheck=()=>dispatch=>{
     const token=localStorage.getItem('token');
     if(!token){
         //logout
+        dispatch(logout());
     }
     else{
         const expirationTime = new Date(localStorage.getItem('expirationTime'));
         if(expirationTime<=new Date()){
             //logout
+            dispatch(logout());
         }
         else{
             const userId=localStorage.getItem('userId');

@@ -5,6 +5,7 @@ import Orders from './Orders/Orders';
 import Checkout from './Orders/Checkout/Checkout';
 import {Route,Switch,Redirect} from 'react-router-dom';
 import Auth from './Auth/Auth';
+import Logout from './Auth/Logout';
 
 import {connect} from 'react-redux';
 
@@ -18,7 +19,7 @@ const mapStateToProps=state=>{
 
 const mapDispatchToProps=dispatch=>{
   return{
-    authCheck:()=>dispatch(authCheck()),
+    authCheck: () => dispatch(authCheck()),
   }
   
 }
@@ -45,10 +46,10 @@ class Main extends Component{
     routes=(
       <Switch>
         <Route path="/orders" component={Orders}/>
-        <Route path="/checkout" component={Checkout}/>        
-        <Route path="/" exact component={BurgerBuilder}/>
+        <Route path="/checkout" component={Checkout}/> 
+        <Route path="/logout" component={Logout}/>      
+        <Route path="/" exact component={BurgerBuilder}/>        
         <Redirect to="/"/>
-
       </Switch>
       )
 

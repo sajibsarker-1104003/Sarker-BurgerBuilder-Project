@@ -11,6 +11,7 @@ import {NavLink} from 'react-router-dom';
 
 import {connect} from 'react-redux';
 
+
 const mapStateToProps=state=>{
   return{
     token:state.token,
@@ -38,7 +39,10 @@ const Header=props=>{
          </NavItem>
          <NavItem>
            <NavLink exact to="/orders" className="NavLink">Order</NavLink>
-         </NavItem>         
+         </NavItem> 
+         <NavItem>
+           <NavLink exact to="/logout" className="NavLink">Log Out</NavLink>
+         </NavItem>        
        </Nav>
     )
   }
