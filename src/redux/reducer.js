@@ -77,7 +77,7 @@ export const reducer=(state= INITIAL_STATE,action)=>{
                     id: key,
                 })
             }
-            console.log(orders);
+            //console.log(orders);
             return {
                 ...state,
                 orders: orders,
