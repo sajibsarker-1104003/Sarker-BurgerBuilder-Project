@@ -45,8 +45,9 @@ export const orderLoadFailed = () => {
   }
 }
 
-export const fetchOrders = () => dispatch => {
-  axios.get("https://burger-builder-69e98-default-rtdb.firebaseio.com/order.json")
+export const fetchOrders = (token,userId) => dispatch => {
+  const queryParams='&orderBy="userId"&equalTo="'+userId+'"';
+  axios.get("https://burger-builder-69e98-default-rtdb.firebaseio.com/order.json?auth="+token+queryParams)
       .then(response => {
           dispatch(loadOrders(response.data));
       })
