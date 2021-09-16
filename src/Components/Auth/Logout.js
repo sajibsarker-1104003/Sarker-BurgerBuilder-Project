@@ -1,8 +1,10 @@
 import React,{Component} from 'react';
 import {Redirect} from 'react-router-dom';
-import { logout } from '../../redux/authActionCreators';
- 
 import { connect } from 'react-redux';
+
+import  {logout}  from '../../redux/authActionCreators';
+ 
+
 
 const mapDispatchToProps = dispatch =>{
   return{
@@ -12,6 +14,7 @@ const mapDispatchToProps = dispatch =>{
 
 class Logout extends Component {
   componentDidMount() {
+    console.log(this.props.logout());
     this.props.logout();
 }
 render() {
